@@ -1,0 +1,16 @@
+#include <bits/stdc++.h> 
+int countDistinctWays(int n) {
+    //  Write your code here.
+    int mod= 1000000007;
+    if(n==0) return 1;
+    if(n<=2) return n;
+    int prev=2,pprev=1;
+    for(int i=3;i<=n;i++)
+    {
+        int curr = (prev%mod + pprev%mod)%mod;
+        pprev=prev%mod;
+        prev=curr%mod;
+        
+    }
+    return prev%mod;
+}
