@@ -9,7 +9,21 @@ int helper(int i,vector<int>&nums,vector<int>&dp)
 }
 int maximumNonAdjacentSum(vector<int> &nums){
     // Write your code here.
-    vector<int>dp(nums.size(),-1);
-    return helper(nums.size()-1,nums,dp);
+    //vector<int>dp(nums.size(),-1);
+    //return helper(nums.size()-1,nums,dp);
+    int pprev = v[0];
+    if(v.size()<1)
+        return pprev;
+    int prev = v[0];
+
+    for(int i = 1;i<v.size();i++){
+        int take = v[i]; if(i>1) take += pprev;
+        int nottake = prev;
+
+        pprev = prev;
+        prev = max<int>(take,nottake);
+
+    }
+    return prev;
     
 }
