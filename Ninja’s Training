@@ -1,0 +1,39 @@
+//link = https://www.codingninjas.com/codestudio/problems/ninja-s-training_3621003?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos
+int helper(vector<vector<int>> &v,int i,int prev){
+    if(i<0) return 0;
+    int ans = 0;
+    for(int x = 0;x<3;x++){
+        if(x!=prev){
+            ans = max(ans, v[i][x] + helper(v,i-1,x));
+        }
+    }
+    return ans;
+}
+int ninjaTraining(int n, vector<vector<int>> &points)
+{
+    // Write your code here.
+    // int ans = 0;
+    // for(int i=0;i<3;i++){
+    //     ans = max(ans,points[points.size()-1][i] + helper(points,points.size()-2,i));
+    // } 
+    // return ans;
+
+    vector<vector<int>> dp(points.size()+1,vector<int>(3,0));
+    for(int i=1;i<=n;i++){
+        for(int j=0;j<3;j++){
+            int ans = 0;
+            for(int x=0;x<3;x++){
+                if(x!=j){
+                    ans = max(ans,points[i-1][x]+dp[i-1][x]);
+                }
+            }
+            dp[i][j] = ans;
+        }
+    }
+    int ans = 0;
+    for(int j=0;j<3;j++){
+        ans = max(ans,dp[dp.size()-1][j]);
+    }
+    return ans;
+
+}
