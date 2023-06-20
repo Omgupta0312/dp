@@ -1,0 +1,21 @@
+//link : https://www.codingninjas.com/codestudio/problems/house-robber_839733?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos
+long long helper(vector<int>& v,int i,int n){
+    long long pprev = 0;
+    long long prev = v[i];
+    
+    for(i=i+1;i<n;i++){
+        long long take = v[i]; if(i>1) take += pprev;
+        long long nottake = prev;
+
+        pprev = prev;
+        prev = max(take,nottake);
+
+    }
+    return prev;
+}
+
+long long int houseRobber(vector<int>& v)
+{
+    return max(helper(v,1,v.size()),helper(v,0,v.size()-1));
+    
+}
