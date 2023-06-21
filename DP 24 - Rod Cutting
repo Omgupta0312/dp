@@ -1,0 +1,18 @@
+int helper(int n,int L,vector<int> &p,vector<vector<int>>&dp )
+{
+    if(n==0)
+        return L*p[0];
+    if(dp[n][L]!=-1) return dp[n][L];
+    int nottake = helper(n-1,L,p,dp);
+    int take=INT_MIN;int rodL=n+1;
+    if(rodL<=L) take=p[n]+helper(n,L-rodL,p,dp);
+    
+    return dp[n][L]=max(take,nottake);
+}
+int cutRod(vector<int> &price, int n)
+{
+	// Write your code here.
+    int L=price.size();
+    vector<vector<int>>dp(n,vector<int>(L+1,-1));
+    return helper(n-1,L,price,dp);
+}
