@@ -1,0 +1,30 @@
+//link : https://www.codingninjas.com/codestudio/problems/partition-a-set-into-two-subsets-such-that-the-difference-of-subset-sums-is-minimum_842494?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos
+#include<bits/stdc++.h>
+int helper(vector<int> &arr, int i,int currsum,int &sum, vector<vector<int>>& dp)
+{
+    if(i<0){
+        if(sum==0)
+            return 0;
+        int ans=INT_MAX;
+        if(sum!=currsum)
+            ans=min(ans,abs(sum-2*currsum));
+        return ans;
+    }
+    if(dp[i][currsum]!=-1) return dp[i][currsum];
+    
+    int take = helper(arr,i-1,currsum+arr[i],sum,dp);
+    int nottake = helper(arr,i-1,currsum,sum,dp);
+    return dp[i][currsum] = min(take,nottake);
+}
+int minSubsetSumDifference(vector<int>& arr, int n)
+{
+	// Write your code here.
+    
+    int sum=0;
+    for(auto &x:arr)
+        sum+=x;
+    if(sum==0) return 0;
+    vector<vector<int>>dp(arr.size(),vector<int>(sum+1,-1));
+    int ans=helper(arr,n-1,0,sum,dp);
+    return ans;
+}
