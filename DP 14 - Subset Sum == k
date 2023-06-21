@@ -1,0 +1,33 @@
+//link : https://www.codingninjas.com/codestudio/problems/subset-sum-equal-to-k_1550954?leftPanelTab=1%3Fsource%3Dyoutube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos
+bool helper(vector<int> &a,int i,int k,vector<vector<int>>&dp)
+{
+    if(k==0) return true;
+    if(i==a.size()-1) return k==a[i];
+    if(dp[i][k]!=-1) return dp[i][k];
+    bool take = false;
+    if(a[i]<=k)
+        take = helper(a,i+1,k-a[i],dp);
+    return  dp[i][k] = take || helper(a,i+1,k,dp);
+}
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+    // vector<vector<int>>dp(n,vector<int>(k+1,-1));
+    // return helper(arr,0,k,dp);
+
+    //tabulation----------
+    if(k==0) return true;
+    vector<vector<bool>> dp(arr.size(),vector<bool>(k+1,0));
+    dp[arr.size()-1][arr.back()]=1;
+    for(int i = arr.size()-2;i>=0;i--){
+        for(int j=0;j<=k;j++){
+            if(j==0){
+                dp[i][j]=1;
+                continue;
+            }
+            bool take = false;
+            if(arr[i]<=j)
+                take = dp[i+1][j-arr[i]];
+            dp[i][j] = take || dp[i+1][j];
+        }
+    }
+    return dp[0][k];
+}
