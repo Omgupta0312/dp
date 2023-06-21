@@ -1,0 +1,46 @@
+//link : https://www.codingninjas.com/codestudio/problems/0-1-knapsack_920542?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos
+
+#include <bits/stdc++.h>
+int helper(vector<int> &weight, vector<int> &value, int n, int w,
+           vector<vector<int>> &dp) {
+  if (n == 0) {
+    if (w >= weight[0])
+      return value[0];
+    else
+      return 0;
+  }
+  if (dp[n][w] != -1)
+    return dp[n][w];
+  int nottake = helper(weight, value, n - 1, w, dp);
+  int take = INT_MIN;
+  if (w >= weight[n])
+    take = value[n] + helper(weight, value, n - 1, w - weight[n], dp);
+
+  return dp[n][w] = max(take, nottake);
+}
+int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) {
+  //******Memoization******
+  // vector<vector<int>> dp(n,vector<int>(maxWeight+1,-1));
+  // return helper(weight,value,n-1,maxWeight,dp);
+
+  // ******tabulation with One dp - Most Space optimized ********
+  vector<int> prev(maxWeight + 1, 0);
+  for (int i = 0; i < n; i++) {
+    for (int w = maxWeight; w >= 0; w--) {
+      if (i == 0) {
+        if (w >= weight[0]) {
+          prev[w] = value[0];
+        }
+      } else {
+        int nottake = prev[w];
+        int take = INT_MIN;
+        if (w >= weight[i]) {
+          take = value[i] + prev[w - weight[i]];
+        }
+
+        prev[w] = max(take, nottake);
+      }
+    }
+  }
+  return prev[maxWeight];
+}
