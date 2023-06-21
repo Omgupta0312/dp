@@ -1,0 +1,38 @@
+#include<bits/stdc++.h>  
+long helper(int *nums, int i,int x,vector<vector<long>>&dp)
+    {
+        if(i==0)
+        {
+            return x%nums[0]==0;
+        }
+        if(dp[i][x]!=-1) return dp[i][x];
+
+        long  nottake = helper(nums,i-1,x,dp);
+        long  take=0;
+        if(nums[i]<=x)
+            take = helper(nums,i,x-nums[i],dp);
+
+        return dp[i][x] = nottake + take;
+    }
+
+long countWaysToMakeChange(int *nums, int n, int target)
+{
+    //Write your code here
+     vector<vector<long>>dp(n,vector<long>(target+1,0));
+     for(int i=0;i<=target;i++)
+         dp[0][i] = i%nums[0]==0;
+    
+    for(int i=1;i<n;i++)
+    {
+        for(int t=0;t<=target;t++)
+        {
+            long  nottake = dp[i-1][t];
+            long  take=0;
+            if(nums[i]<=t)
+                take = dp[i][t-nums[i]];
+
+           dp[i][t] = nottake + take;
+        }
+    }
+    return dp[n-1][target];
+}
