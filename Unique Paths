@@ -1,0 +1,31 @@
+link : https://www.codingninjas.com/codestudio/problems/total-unique-paths_1081470?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos
+#include <bits/stdc++.h> 
+//  int helper(int m,int n,vector<vector<int>>&dp)
+//  {
+//     if(n<0 || m<0) return 0;
+//      if(n==0 && m==0) return 1;
+//      if(dp[m][n]!=-1) return dp[m][n];
+//      return dp[m][n]=helper(m-1,n,dp)+helper(m,n-1,dp);
+//  }
+int uniquePaths(int m, int n) {
+    vector<vector<int>>dp(m,vector<int>(n,-1));
+// memorization approach :
+//       return helper(m-1,n-1,dp);
+    
+//  Tabulation:
+    for(int i=0;i<m;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            if(i==0 || j==0) dp[i][j]=1;
+            else{
+                int up=0,left=0;
+                up=dp[i-1][j];
+                left=dp[i][j-1];
+                dp[i][j]=left+up;
+            }
+        }
+    }
+    return dp[m-1][n-1];
+    
+}}
