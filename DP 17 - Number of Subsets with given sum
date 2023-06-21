@@ -1,0 +1,39 @@
+//link : https://www.codingninjas.com/codestudio/problems/number-of-subsets_3952532?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos&leftPanelTab=1
+int helper(vector<int> &arr,int n,int tar, vector<vector<int>>&dp)
+{
+    if(n<0){
+        return tar == 0;
+    }
+
+    if(dp[n][tar]!=-1)
+         return dp[n][tar];
+    int take=0;
+    if(tar>=arr[n])
+        take = helper(arr,n-1,tar-arr[n],dp);
+    return dp[n][tar]= take + helper(arr,n-1,tar,dp);
+        
+}
+int findWays(vector<int> &num, int tar)
+{
+    vector<vector<int>>dp(num.size(),vector<int>(tar+1,-1));
+    return helper(num,num.size()-1,tar,dp);
+
+    //Tabulation
+    // vector<vector<int>>dp(num.size(),vector<int>(tar+1,0));
+    // for(int i=0;i<num.size();i++)
+    //     dp[i][0]=1;
+    
+    // if(num[0]<=tar) dp[0][num[0]]=1;
+    
+    // for(int i=1;i<num.size();i++)
+    // {
+    //     for(int sum=0;sum<=tar;sum++)
+    //     {
+    //         int take=0;
+    //         if(sum>=num[i])
+    //             take = dp[i-1][sum-num[i]];
+    //         dp[i][sum]= take + dp[i-1][sum];
+    //     }
+    // }
+    // return dp[num.size()-1][tar];
+}
